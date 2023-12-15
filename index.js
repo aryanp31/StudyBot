@@ -3,17 +3,22 @@ import { config } from 'dotenv'
 import { OpenAI } from 'openai'
 import cors from 'cors';
 
-
+// Load variables from the .env file
 config()
 
 const app = express()
+
+// Set the port number for the server
 const port = process.env.PORT || 3000;
 
 const openai = new OpenAI( { apiKey: process.env.API_KEY } );
 
 app.use(express.json());
-app.use(cors());
 
+// Middleware to parse incoming JSON requests
+app.use(cors()); 
+
+// Define a route for handling POST requests to /chat
 app.post('/chat', async (req, res) => {
   const input = req.body.input;
 
@@ -36,6 +41,7 @@ app.post('/chat', async (req, res) => {
   }
 })
 
+// Start the server and listen on the specified port
 app.listen(port, () => {
   console.log('Server is running on port ${port}');
 });
